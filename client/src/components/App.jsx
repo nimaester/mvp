@@ -43,7 +43,7 @@ const App = () => {
     getKantoPokemon();
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 50);
+    }, 1500);
     return () => clearTimeout(timer).catch(console.log);
   }, []);
 
@@ -74,6 +74,38 @@ const App = () => {
     document.body.style.overflow = "auto";
   }
 
+  const getPrevPokemon = () => {
+    fetch(`https://pokeapi.co/api/v2/pokemon-species/${currentPokemon.id - 1}/`)
+      .then((res) => res.json())
+      .then((res) => setDescription(res.flavor_text_entries[1].flavor_text));
+    fetch(`https://pokeapi.co/api/v2/pokemon/${currentPokemon.id - 1}/`)
+      .then((res) => res.json())
+      .then((res) =>
+        setMeasurements({ height: res.height, weight: res.weight })
+      );
+      pokedex.forEach((pokemon) => {
+        if (currentPokemon.id - 1 === pokemon.id) {
+          setCurrentPokemon(pokemon);
+        }
+      });
+  }
+
+  const getNextPokemon = () => {
+    fetch(`https://pokeapi.co/api/v2/pokemon-species/${currentPokemon.id + 1}/`)
+      .then((res) => res.json())
+      .then((res) => setDescription(res.flavor_text_entries[1].flavor_text));
+    fetch(`https://pokeapi.co/api/v2/pokemon/${currentPokemon.id + 1}/`)
+      .then((res) => res.json())
+      .then((res) =>
+        setMeasurements({ height: res.height, weight: res.weight })
+      );
+    pokedex.forEach((pokemon) => {
+      if (currentPokemon.id + 1 === pokemon.id) {
+        setCurrentPokemon(pokemon);
+      }
+    });
+  };
+
   return (
     <div>
       <Topbar />
@@ -82,22 +114,23 @@ const App = () => {
         getHoennPokemon={getHoennPokemon}
         getKantoPokemon={getKantoPokemon}
       />
-      <PokemonList
-        popUp={popUp}
-        loadMore={loadMore}
-        pokedex={pokedex}
-        visible={visible}
-        assignCurrentPokemon={assignCurrentPokemon}
-        setDescription={setDescription}
-        setMeasurements={setMeasurements}
-      />
-      <div className="button-div">
-        {visible < pokedex.length ? (
-          <button className="button-load" onClick={loadMore}>
-            Load More
-          </button>
-        ) : null}
-      </div>
+        <PokemonList
+          popUp={popUp}
+          loadMore={loadMore}
+          pokedex={pokedex}
+          visible={visible}
+          assignCurrentPokemon={assignCurrentPokemon}
+          setDescription={setDescription}
+          setMeasurements={setMeasurements}
+        />
+
+          <div className="button-div">
+            {visible < pokedex.length ? (
+              <button className="button-load" onClick={loadMore}>
+                Load More
+              </button>
+            ) : null}
+          </div>
       {modal ? (
         <React.Fragment>
           <div className="screen">
@@ -108,6 +141,8 @@ const App = () => {
               popUp={popUp}
               currentPokemon={currentPokemon}
               measurements={measurements}
+              getNextPokemon={getNextPokemon}
+              getPrevPokemon={getPrevPokemon}
             />
           </div>
         </React.Fragment>
@@ -118,5 +153,4 @@ const App = () => {
     </div>
   );
 };
-
 export default App;

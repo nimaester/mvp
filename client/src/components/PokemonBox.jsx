@@ -21,7 +21,7 @@ const PokemonBox = ({popUp, pokemon, assignCurrentPokemon, setDescription, setMe
   return (
     <div onClick={handleSubmit} className="pokemon-box">
       <img
-        src={`https://ntpokedextotal.s3-us-west-1.amazonaws.com/${pokemon.id}.png`}
+        src={`https://ntpokedextotal.s3-us-west-1.amazonaws.com/pokedex${pokemon.id}.png`}
         alt={pokemon.name.english}
         className="pokemon-image"
       />

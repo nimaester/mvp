@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import PokemonBox from './PokemonBox.jsx';
 
-const PokemonList = ({visible, pokedex, popUp, assignCurrentPokemon, setDescription, setMeasurements}) => {
+const PokemonList = ({visible, handleSubmit, getData, pokedex, popUp, assignCurrentPokemon, setDescription, setMeasurements}) => {
 
 
   return (
@@ -10,6 +10,8 @@ const PokemonList = ({visible, pokedex, popUp, assignCurrentPokemon, setDescript
         .filter((pokemon, index) => index < visible)
         .map((pokemon, index) => (
           <PokemonBox
+            handleSubmit={handleSubmit}
+            getData={getData}
             key={pokemon.id}
             setDescription={setDescription}
             assignCurrentPokemon={assignCurrentPokemon}

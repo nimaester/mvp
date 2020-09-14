@@ -1,5 +1,5 @@
 import React from 'react';
-const Topbar = ({getKantoPokemon, getJohtoPokemon, getHoennPokemon}) => {
+const Topbar = () => {
 
   return (
     <div className="topbar">
