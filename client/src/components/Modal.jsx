@@ -8,7 +8,10 @@ const Modal = ({
   measurements,
   getNextPokemon,
   getPrevPokemon,
+  setTeam,
+  makeTeam,
 }) => {
+
   const fixHeight = () => {
     let num = measurements.height * 0.3281;
     let arr = num.toFixed(1).toString().split(".");
@@ -25,6 +28,11 @@ const Modal = ({
   const fixWeight = () => {
     return measurements.weight * (0.2204).toFixed(2);
   };
+
+  const addToYourTeam = () => {
+    makeTeam(currentPokemon.id)
+    popUp();
+  }
 
   return (
     <div className="pokemon-modal">
@@ -43,7 +51,8 @@ const Modal = ({
       <span className="height">Height: {fixHeight()}</span>
       <span className="weight">Weight: {fixWeight()} pounds</span>
       <audio
-        autoPlay
+        controls
+        className="pkAudio"
         src={`https://7528pkmncries.s3-us-west-1.amazonaws.com/cry${currentPokemon.id}.wav`}
       ></audio>
       <img
@@ -59,9 +68,11 @@ const Modal = ({
         src="https://ntpokedextotal.s3-us-west-1.amazonaws.com/leftArrow.png"
         alt=""
         className={
-          currentPokemon.id === pokedex[0].id ? "hide-button" : "prev-button"
+          currentPokemon.id === 1 ? "hide-button" : "prev-button"
         }
       />
+
+      <button onClick={addToYourTeam} className="favorites">+ Team</button>
     </div>
   );
 };
